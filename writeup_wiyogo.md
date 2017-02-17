@@ -21,7 +21,7 @@ The goals / steps of this project are the following:
 [image4]: ./references/graycompare.png "grascaled images"
 [image5]: ./references/normalgraycompare.png "Normalized gray image"
 [image6]: ./references/augm_rotation_minus40.png "Augmentation"
-[image7]: ./references/newimages.png "New images from web"
+[image7]: ./references/new_images.png "New images from web"
 [image8]: ./references/softmax.png "New images from web"
 [image9]: ./references/LeNet2Conv-3Conv.png "LeNet 2 ConvNet vs 3 ConvNet"
 [image10]: ./references/YoWiNetComparison.png "Parameter Comparison"
