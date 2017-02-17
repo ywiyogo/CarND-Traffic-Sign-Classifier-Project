@@ -147,11 +147,18 @@ My final model consisted of the following layers:
 
 The code for training the model is located in the eigth cell of the ipython notebook. 
 
-Since I cannot utilize GPU (on my private laptop and IPython Notebook hangs very often in my AWS instance), I apply these standard parameters same as the LeNet model:
+Since I cannot utilize GPU (on my private laptop and IPython Notebook hangs very often in my AWS instance), I apply these standard parameters same as the LeNet model since the lecture shows how high accurate the model is:
 * Batch size: 128
 * type of optimizer: Adam Optimizer
 
-After several experiments, I use 50 epochs and 0.0008 learning rate. In this folder, I recorded the epochs and the comparison in Comparison.ods file.
+I was experimenting also with diffirent values of sigma. A high value of sigma (bigger than 0.3) results a significant drawback. This verify the explaination from Vincent in the lecture that we should not try to start with a high probability value for our weights.
+
+After several experiments, I use these parameters:
+* epochs: 40
+* learning rate: 0.0007.
+* sigma:
+
+I've recorded my history of the experiments in the file Comparison.ods.
 
 
 ####4. Solution Design: The project thoroughly discusses the approach taken for deriving and designing a model architecture fit for solving the problem given.
@@ -199,20 +206,13 @@ Here are the results of the prediction:
 | Wild animals crossing	| Wild animals crossing      					|
 
 
-The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 1.00. This compares favorably to the accuracy on the test set of 0.93
 
 ####3. Model Certainty - Softmax Probabilities: The top five softmax probabilities of the predictions on the captured images are outputted. The submission discusses how certain or uncertain the model is of its predictions.
 
 The code for making predictions on my final model is located in the 17th and 18th cell of the Ipython notebook.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+For all the images, the model is 100% sure that the predict the right sign (probability of 1.0).
 
-For the second image, 
-
-For the third image, 
-
-For the fourth image, 
-
-For the fifth image, 
 
 ![alt text][image8] 
