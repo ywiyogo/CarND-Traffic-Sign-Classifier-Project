@@ -1,5 +1,5 @@
 #**Traffic Sign Recognition** 
-[//]: Author: Yongkie Wiyogo
+[//]: # Author: Yongkie Wiyogo
 
 ---
 
@@ -24,6 +24,9 @@ The goals / steps of this project are the following:
 [image6]: ./references/augm_rotation_minus40.png "Augmentation"
 [image7]: ./references/newimages.png "New images from web"
 [image8]: ./references/softmax.png "New images from web"
+[image9]: ./references/LeNet2Conv-3Conv.png "LeNet 2 ConvNet vs 3 ConvNet"
+[image10]: ./references/YoWiNetComparison.png "Parameter Comparison"
+[image11]: ./references/YoWiNet.png "YoWiNet"
 
 
 ## Rubric Points
@@ -94,7 +97,7 @@ There are some formulas for the normalization. I choose the on from the Lecture 
 >(img - 128)/128
 
 My final training set had **42239** number of images. 
-My final validation set and test set had **4710** and **12630** number of images.
+My final validation set and test set had **5010** and **12630** number of images.
 
 The sixth code cell of the IPython notebook contains the code for augmenting the data set. I decided to generate additional data because several ID label is undersampled. In order to get a better accuracy I need to generate more training input for those ID labels To add more data to the the data set, I used the following techniques:
 
@@ -122,16 +125,16 @@ My final model consisted of the following layers:
 
 |Layer|  Operations     |     Description                     | Outputs shape |
 |:---:|:---------------:|:-----------------------------------:|:-------------:|
-| 0 | Input             | 32x32x3 RGB image                   | 32x32x3       |
+| 0 | Input             | 32x32x3 Gray image                  | 32x32x1       |
 | 1 | Convolution 5x5   | 6 filters of 5x5x1, padding: VALID  | 28x28x6       |
 |   | RELU              |                                     | 28x28x6       |
 |   | Max pooling       | k: 2x2, stride: 2,                  | 14x14x6       |
-|2-1| Input             | from L1 14x14x6 RGB image           |               |
+|2-1| Input             | from L1 14x14x6                     |               |
 |   | Convolution 5x5   | 16 filters of 5x5x6, padding: VALID | 10x10x16      |
 |   | RELU              |                                     | 10x10x16      |
 |   | Max pooling       | k: 2x2 stride: 2                    | 5x5x16        |
 |   | Flatten           | Flatten the 3D matrix -> 1D         | 400           |
-|2-2| Input             | From L1: 14x14x6 RGB image          |               |
+|2-2| Input             | From L1: 14x14x6                    |               |
 |   | Convolution 5x5   | 20 filters of 5x5x6, padding: VALID | 10x10x20      |
 |   | RELU              |                                     | 10x10x20      |
 |   | Max pooling       | k: 2x2 stride: 2                    | 5x5x20        |
@@ -145,37 +148,45 @@ My final model consisted of the following layers:
 
 ####3. Model Training: The submission describes how the model was trained by discussing what optimizer was used, batch size, number of epochs and values for hyperparameters.
 
-The code for training the model is located in the eigth cell of the ipython notebook. 
+I used the iterative approach for designing neural network task. Firstly I tried the LeNet from the lecture. I chose LeNet from the lecture because based on the lecture it can return more than 95% of accuracy for the handwriting dataset in grayscale image format. The code for training the model is located in the eigth cell of the ipython notebook. 
+
+My first five experiments shows how the amount of the training data set and the convolutional layer influence the performance of the validation accuracy. The below figure shows the comparison:
+
+![alt text][image9]
 
 Since I cannot utilize GPU (on my private laptop and IPython Notebook hangs very often in my AWS instance), I apply these standard parameters same as the LeNet model since the lecture shows how high accurate the model is:
 * Batch size: 128
 * type of optimizer: Adam Optimizer
 
-I was experimenting also with diffirent values of sigma. A high value of sigma (bigger than 0.3) results a significant drawback. This verify the explaination from Vincent in the lecture that we should not try to start with a high probability value for our weights.
+Using the SGD optimizer, my model has failed. It returns the training accuracy below 10%.
 
-After several experiments, I use these parameters:
-* epochs: 40
-* learning rate: 0.0007.
-* sigma:
+I was experimenting also with different values of sigma. A high value of sigma (bigger or less than 0.1) results a significant drawback. This verify the explaination from Vincent in the lecture that we should not try to start with a high probability value for our weights. The `tf.truncated_normal()` can return a range between -2sigma and 2sigma as the initial weights. Thus, we don't want to have initial weights that are higher than 0.4.
 
-I've recorded my history of the experiments in the file Comparison.ods.
+I've recorded some histories of the experiments in the file Comparison.ods.
 
 
 ####4. Solution Design: The project thoroughly discusses the approach taken for deriving and designing a model architecture fit for solving the problem given.
 
-I used the iterative approach for designing neural network task. Firstly I tried the LeNet from the lecture. I chose LeNet from the lecture because based on the lecture it can return more than 95% of accuracy for the handwriting dataset in grayscale format.
-
-The problem of my initial model was that after my initial try, it has validation accuracy between 85% and 90%. This was also caused by the initial training data set.
+The problem of the initial model was that after my initial try, it has validation accuracy below 90%. 
 
 With the final training data set, it delivered approximately between 90% to 93% validation accuracy. After, I read this recommended [paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf), the proposed model utilized 3 times of convolution. Therefore, I tried to add the third convolution layer in LeNet. However, it did not bring a significant improvement, max only 1% accuracy.
 
-I modified the architecture , so that on the second stage I have 2 parallel convolution layers, we can call them Layer 2-1 and Layer 2-2. The layer 3 acquires the input from L2-1 and conducts the matrix multiplication (fully connected). Layer 4 concatenates the output from Layer 3 and Layer 2-2. Afterward, I created three additional fully connected layers (Layer 5, 6, and 7). With this architecture, I can achive 93% of validation accuracy. 
+I modified the architecture , so that on the second stage I have 2 parallel convolution layers, we can call them Layer 2-1 and Layer 2-2. The layer 3 acquires the input from L2-1 and conducts the matrix multiplication (fully connected). Layer 4 concatenates the output from Layer 3 and Layer 2-2. Afterward, I created three additional fully connected layers (Layer 5, 6, and 7). With this architecture, I can achive 93% of validation accuracy. I called this customized model as YoWiNet in this project. 
 
+![alt text][image11]
+
+After my several experiments (that can be seen on the below figure), I use these parameters:
+* epochs: 40
+* learning rate: 0.0007.
+* mu = 0
+* sigma: 0.1
+
+![alt text][image10]
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of **0.951**
+* validation set accuracy of **0.930**
+* test set accuracy of **1.00**
 
 My conclusion is that tuning the parameter and the design of CNN does not bring a high improvement if our training and validation data set not good and not big enough.
 
