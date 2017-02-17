@@ -210,12 +210,12 @@ The code for making predictions on my final model is located in the tenth cell o
 Here are the results of the prediction:
 
 |Label| Image                 |     Prediction	        					| 
-|:   :|:---------------------:|:-------------------------------------------:| 
-|12   | Priority road      	| Priority road    								| 
-|17   | No entry     			| No entry 									|
-|18   | General caution		| General caution								|
-|25   | Road work	      		| Road work				         			|
-|31   | Wild animals crossing	| Wild animals crossing           			|
+|:---:|:---------------------:|:-------------------------------------------:| 
+|12   | Priority road      	  | Priority road    							| 
+|17   | No entry     		  | No entry 									|
+|18   | General caution		  | General caution								|
+|25   | Road work	      	  | Road work				         			|
+|31   | Wild animals crossing | Wild animals crossing           			|
 
 
 The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of **1.00**, compared to the accuracy on the test data set of **0.93**
