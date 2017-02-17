@@ -22,7 +22,7 @@ The goals / steps of this project are the following:
 [image4]: ./references/graycompare.png "grascaled images"
 [image5]: ./references/normalgraycompare.png "Normalized gray image"
 [image6]: ./references/augm_rotation_minus40.png "Augmentation"
-[image7]: ./references/new_images.png "New images from web"
+[image7]: ./references/newimages.png "New images from web"
 [image8]: ./references/softmax.png "New images from web"
 
 
@@ -106,7 +106,7 @@ The sixth code cell of the IPython notebook contains the code for augmenting the
 
 Here is an example of an original image and an augmented image:
 
-![alt text][image5]
+![alt text][image6]
 
 The difference between the original data set and the augmented data set is that the augmented data set is rotated randomly between -40 to -15 and 15 to 40 degree, and 1.2 times bigger than the original. 
 
@@ -130,12 +130,12 @@ My final model consisted of the following layers:
 |   | Convolution 5x5   | 16 filters of 5x5x6, padding: VALID | 10x10x16      |
 |   | RELU              |                                     | 10x10x16      |
 |   | Max pooling       | k: 2x2 stride: 2                    | 5x5x16        |
-|   | Flatten           | .                                   | 400           |
+|   | Flatten           | Flatten the 3D matrix -> 1D         | 400           |
 |2-2| Input             | From L1: 14x14x6 RGB image          |               |
 |   | Convolution 5x5   | 20 filters of 5x5x6, padding: VALID | 10x10x20      |
 |   | RELU              |                                     | 10x10x20      |
 |   | Max pooling       | k: 2x2 stride: 2                    | 5x5x20        |
-|   | Flatten           | .                                   | 500           |
+|   | Flatten           | Flatten the 3D matrix -> 1D         | 500           |
 | 3 | Fully Connected   | Input L2-1 400 -> 100               | 100           |
 | 4 | Concatenate       | Input L3 + L2-2   100+500           | 600           |
 | 5 | Fully Connected   | Input L4  600 -> 100                | 100           |
@@ -169,7 +169,7 @@ The problem of my initial model was that after my initial try, it has validation
 
 With the final training data set, it delivered approximately between 90% to 93% validation accuracy. After, I read this recommended [paper](http://yann.lecun.com/exdb/publis/pdf/sermanet-ijcnn-11.pdf), the proposed model utilized 3 times of convolution. Therefore, I tried to add the third convolution layer in LeNet. However, it did not bring a significant improvement, max only 1% accuracy.
 
-I modified the architecture , so that on the second stage I have 2 parallel convolution layers, we can call them Layer 2-1 and Layer 2-2. The layer 3 acquires the input from L2-1 and conducts the matrix multiplication (fully connected). Layer 4 concatenates the output from Layer 3 and Layer 2-2. Afterward, I created three additional fully connected layers (Layer 5, 6, and 7). With this architecture, I can achive 95% of validation accuracy. 
+I modified the architecture , so that on the second stage I have 2 parallel convolution layers, we can call them Layer 2-1 and Layer 2-2. The layer 3 acquires the input from L2-1 and conducts the matrix multiplication (fully connected). Layer 4 concatenates the output from Layer 3 and Layer 2-2. Afterward, I created three additional fully connected layers (Layer 5, 6, and 7). With this architecture, I can achive 93% of validation accuracy. 
 
 
 My final model results were:
@@ -177,7 +177,7 @@ My final model results were:
 * validation set accuracy of ? 
 * test set accuracy of ?
 
-
+My conclusion is that tuning the parameter and the design of CNN does not bring a high improvement if our training and validation data set not good and not big enough.
 
 ###Test a Model on New Images
 
